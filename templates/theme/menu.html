@@ -2,17 +2,9 @@
 {% load staticfiles %}
 <nav id="nav">
     <ul>
-        {% if DISPLAY_NIST_HEADERS %}
-        <li id="nist-logo" style="">
-            <a href="https://www.nist.gov/" title="National Institute of Standards and Technology">
-                <img src="{% static "img/logo_nist_white.svg" %}" alt="National Institute of Standards and Technology"
-                    style=""/>
-            </a>
-        </li>
-        {% endif %}
         {% block navigation_menu %}
             {% generate_menu %}
-
+                <span style="color: white;">AM Material Database</span>
             {% for item in menus.main %}
                 <li {% if item == selected_menu %}class="current"{% endif %}>
                     <a href="{{ item.url }}"><i class="fa fa-{{ item.icon }}"></i> {{ item.title }}</a>
@@ -20,7 +12,7 @@
             {% endfor %}
         {% endblock %}
 
-        <li class="nested">
+        <li class="nested pull-right" style="margin-top: 5px;">
             {% if user.is_authenticated %}
             <a href="#" class="btn-custom">
                 <i class="fa fa-user"></i> {{ user }} <i class="fa fa-chevron-down"></i>

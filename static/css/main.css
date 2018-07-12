@@ -2341,7 +2341,7 @@
 	#header {
 		text-align: center;
 		/*padding: 1em 0 0 0;*/
-		background-color: black;
+		background-color: #2F2F2F;
 		background-position: top left;
 		background-blend-mode: difference;
 		background-size: 3em 6em;
@@ -2370,13 +2370,13 @@
 
 	#nav {
 		cursor: default;
-		background-color: #a5d1ed;
+		background-color: black;
 		background-image: -moz-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.3)), url("../img/bg01.png");
 		background-image: -webkit-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.3)), url("../img/bg01.png");
 		background-image: -ms-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.3)), url("../img/bg01.png");
 		background-image: linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.3)), url("../img/bg01.png");
 		padding: 0;
-		text-align: right;
+		text-align: left; /* updated by NIST */
 	}
 
 		#nav:after {
@@ -2391,6 +2391,7 @@
 		#nav > ul {
 			margin: 0;
             padding-right: 2em;  /* Added by NIST */
+            padding-left: 2em;  /* Added by NIST */
 		}
 
 			#nav > ul > li {
@@ -2401,7 +2402,7 @@
 
                 /* Added by NIST */
 			    #nav > ul > li > a:not(.btn-custom) {
-					color: black;
+					color: #D3D3D3;
 				}
 
 				#nav > ul > li a {
@@ -2417,7 +2418,7 @@
 				}
 
 				#nav > ul > li:hover a {
-					color: black;
+					color: white;
 					font-weight: 600;
 				}
 
@@ -2462,7 +2463,7 @@
 /* Dropotron */
 
 	.dropotron {
-		background-color: #a5d1ed;/*#333;*/
+		background-color: #2F2F2F;
 		background-image: -moz-linear-gradient(top, rgba(0,0,0,0.3), rgba(0,0,0,0)), url("../img/bg01.png");
 		background-image: -webkit-linear-gradient(top, rgba(0,0,0,0.3), rgba(0,0,0,0)), url("../img/bg01.png");
 		background-image: -ms-linear-gradient(top, rgba(0,0,0,0.3), rgba(0,0,0,0)), url("../img/bg01.png");
@@ -2481,7 +2482,7 @@
 		}
 
 			.dropotron > li > a {
-				color: black;
+				color: #D3D3D3;
 				text-decoration: none;
 				border: 0;
 			    margin: 0 0.6em 0 0.5em; /* modified by NIST */
@@ -2489,14 +2490,14 @@
 			}
 
 			.dropotron > li.active > a {
-				color: black;
+				color: white;
 				/* Added by NIST */
 				background-color: var(--main-highlight-color);
                 border-radius: 5px;
 			}
 
 			.dropotron > li:hover > a {
-                color: black;
+                color: white;
                 font-weight: 600;
             }
 

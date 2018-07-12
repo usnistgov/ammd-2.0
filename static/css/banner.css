@@ -2,3 +2,14 @@
     position: relative;
     top: -1.2em;
 }
+
+.nist-banner-logo {
+    width: 300px;
+    margin-bottom: 25px;
+}
+
+.nist-banner-logo a {
+    text-decoration: none;
+    border: 0 none;
+}
+
