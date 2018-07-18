@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^curate/', include("core_curate_app.urls")),
     url(r'^parser/', include("core_parser_app.urls")),
     url(r'^dashboard/', include("core_dashboard_app.urls")),
+    url(r'^query-ontology/', include("core_explore_tree_app.urls")),
 ]
 

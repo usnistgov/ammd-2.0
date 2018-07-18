@@ -47,6 +47,7 @@ INSTALLED_APPS = (
 
     # Core apps
     "core_main_app",
+    "core_explore_tree_app",
     "core_website_app",
     "core_curate_app",
     "core_parser_app",

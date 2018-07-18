@@ -2,3 +2,4 @@ core-main-app==1.0.0-beta4
 core-curate-app==1.0.0-beta4
 core-website-app==1.0.0-beta4
 core-dashboard-app==1.0.0-beta4
+core-explore-tree-app==1.0.0-alpha1
