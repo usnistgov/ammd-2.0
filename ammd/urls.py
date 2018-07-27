@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^parser/', include("core_parser_app.urls")),
     url(r'^dashboard/', include("core_dashboard_app.urls")),
     url(r'^query-ontology/', include("core_explore_tree_app.urls")),
+    url(r'^schema_viewer/', include("core_schema_viewer_app.urls")),
 ]
 

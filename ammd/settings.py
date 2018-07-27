@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     "core_parser_app.tools.parser",  # FIXME: make parser an app
     "core_dashboard_app",
     "core_dashboard_common_app",
+    "core_schema_viewer_app",
 )
 
 MIDDLEWARE = (

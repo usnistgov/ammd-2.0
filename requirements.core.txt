@@ -3,3 +3,4 @@ core-curate-app==1.0.0-beta5
 core-website-app==1.0.0-beta5
 core-dashboard-app==1.0.0-beta5
 core-explore-tree-app==1.0.0-alpha2
+core-schema-viewer-app==1.0.0-alpha1
