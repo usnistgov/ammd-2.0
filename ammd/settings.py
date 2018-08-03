@@ -299,3 +299,48 @@ PARSER_DOWNLOAD_DEPENDENCIES = True
 DATA_DISPLAY_NAME = 'record'
 DRAFT_DISPLAY_NAME = 'draft'
 WORKSPACE_DISPLAY_NAME = 'workspace'
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'loc1',
+        'TIMEOUT': None
+    },
+    'navigation': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'loc2',
+        'TIMEOUT': None
+    },
+    'html_tree': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'loc3',
+        'TIMEOUT': None
+    },
+    'leaf': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'loc4',
+        'TIMEOUT': None,
+        'OPTIONS': {
+            'MAX_ENTRIES': 2000
+        }
+    },
+    'branch': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'loc5',
+        'TIMEOUT': None
+    },
+    'link': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'loc6',
+        'TIMEOUT': None,
+        'OPTIONS': {
+            'MAX_ENTRIES': 2000
+        }
+    },
+}
+
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHE_MIDDLEWARE_SECONDS = 604800
+CACHE_MIDDLEWARE_KEY_PREFIX = ''
+CACHE_BACKEND = "locmem:///"
