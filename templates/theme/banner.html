@@ -1,14 +1,6 @@
 {% load staticfiles %}
 
-<header>
-    {% if DISPLAY_NIST_HEADERS %}
-    <li class="nist-banner-logo">
-        <a href="https://www.nist.gov/" title="National Institute of Standards and Technology">
-            <img src="{% static 'img/logo_nist_white.svg' %}" alt="National Institute of Standards and Technology"/>
-        </a>
-
-    </li>
-    {% endif %}
+<header class="header-provide">
     <a target="_blank"
        href="mailto:ammd@nist.gov?subject=Feedback%20on%20Website%20EL%20AMMD"
        class="pull-right feedback-link">

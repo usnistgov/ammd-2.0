@@ -4,7 +4,7 @@
 }
 
 .nist-banner-logo {
-    width: 300px;
+    width: 150px;
     margin-bottom: 25px;
 }
 
@@ -13,3 +13,26 @@
     border: 0 none;
 }
 
+.feedback-link {
+    margin-top: 20px;
+    color: white;
+    text-decoration: none;
+    border: 1px solid white;
+    padding: 5px 15px;
+    text-align: center;
+    display: inline-block;
+}
+
+.feedback-link:hover {
+    color: white;
+    text-decoration: none;
+    border: 1px solid white;
+}
+
+.nist-footer {
+    margin-top: 30px;
+}
+
+.header-provide {
+    height: 80px;
+}

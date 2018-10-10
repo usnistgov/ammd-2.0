@@ -1827,12 +1827,12 @@
 		transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
 		color: #37c0fb;
 		text-decoration: none;
-		border-bottom: dotted 1px;
 	}
 
 		a:hover {
 			color: #37c0fb;
 			border-bottom-color: transparent;
+			text-decoration:unset;
 		}
 
 	strong, b {
@@ -2459,6 +2459,17 @@
 				#nav > ul > li > ul {
 					display: none;
 				}
+
+.cdcs-menu__item {
+  list-style: none;
+}
+
+.cdcs-logo {
+    bottom: -15px;
+    width: 1.75em;
+    vertical-align: middle;
+    margin-left: 0;
+}
 
 /* Dropotron */
 
