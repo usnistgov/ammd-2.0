@@ -1,0 +1,32 @@
+{% load staticfiles %}
+
+<div class="wrapper">
+  <div class="content-wrapper">
+     <div class="row">
+         <div class="landing-header">
+            <img src="/static/img/landing_header.png" alt="landing_header">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row row-icons">
+                <div class="col-md-4 text-center">
+                    <a target="_blank" id="explore_view" class="viewer-link" href="{% url 'core_explore_tree_index' %}">
+                        <img src="{% static 'img/explore_link.png' %}" class="reduced"/>
+                    </a>
+                </div>
+                <div class="col-md-4 text-center">
+                    <a target="_blank" id="home_view" class="viewer-link" href="{% url 'core_main_app_homepage' %}">
+                        <img src="{% static 'img/home_link.png' %}" class="reduced"/>
+                    </a>
+                </div>
+                <div class="col-md-4 text-center">
+                    <a target="_blank" id="viewer_view" class="viewer-link" href="{% url 'core_schema_viewer_index' %}">
+                        <img src="{% static 'img/viewer_link.png' %}" class="reduced"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

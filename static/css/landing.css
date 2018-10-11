@@ -1,0 +1,14 @@
+.row-banner {
+    background-color: #c0d8ed;
+}
+
+.landing-header {
+    width: 100%;
+    text-align: center;
+    background-image: url(../img/landing_header_bg.png);
+    background-repeat: repeat-x;
+}
+
+.row-icons {
+    padding: 50px;
+}

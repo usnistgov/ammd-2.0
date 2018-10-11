@@ -14,15 +14,18 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+import ammd.views.user.views as user_views
+
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^', include("core_main_app.urls")),
-    url(r'^', include("core_website_app.urls")),
+    url(r'^home/', include("core_main_app.urls")),
+    url(r'^home/', include("core_website_app.urls")),
     url(r'^curate/', include("core_curate_app.urls")),
     url(r'^parser/', include("core_parser_app.urls")),
     url(r'^dashboard/', include("core_dashboard_app.urls")),
     url(r'^query-ontology/', include("core_explore_tree_app.urls")),
     url(r'^schema_viewer/', include("core_schema_viewer_app.urls")),
+    url(r'^', user_views.landing_page, name='ammd_landing_page'),
 ]
 
