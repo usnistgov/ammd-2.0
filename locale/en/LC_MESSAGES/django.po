@@ -1,5 +1,5 @@
 msgid "form_label"
-msgstr "form"
+msgstr "draft"
 
 msgid "record_label"
 msgstr "record"
