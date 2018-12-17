@@ -361,3 +361,7 @@ CACHE_BACKEND = "locmem:///"
 SSL_CERTIFICATES_DIR = 'certs'
 """ :py:class:`str`: SSL certificates directory location.
 """
+
+XSD_URI_RESOLVER = None
+""" :py:class:`str`: XSD URI Resolver for lxml validation. Choose from:  None, 'REQUESTS_RESOLVER'.
+"""
