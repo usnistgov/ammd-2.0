@@ -12,6 +12,9 @@
                     <a href="{{ item.url }}"><i class="fa fa-{{ item.icon }}"></i> {{ item.title }}</a>
                 </li>
             {% endfor %}
+            <li>
+                <a target="_blank" href="{% url 'swagger_view' %}">Data Interface</a>
+            </li>
         {% endblock %}
 
         {% if 'core_website_app' in INSTALLED_APPS %}
@@ -44,7 +47,6 @@
                     <li><a href="{% url 'admin:core_main_app_admin_home' %}">Administration</a></li>
                 {% endif %}
                 <li class="divider"></li>
-                <li><a href="{% url 'swagger_view' %}">Rest API</a></li>
                 <li><a href="{% url 'core_main_app_logout' %}"><i class="fa fa-sign-out"></i> Logout</a></li>
             </ul>
             {% else %}
