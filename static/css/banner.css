@@ -15,18 +15,18 @@
 
 .feedback-link {
     margin-top: 20px;
-    color: white;
+    color: #2f2f2f;
     text-decoration: none;
-    border: 1px solid white;
+    border: 1px solid #2f2f2f;
     padding: 5px 15px;
     text-align: center;
     display: inline-block;
 }
 
 .feedback-link:hover {
-    color: white;
+    color: #4f4f4f;
     text-decoration: none;
-    border: 1px solid white;
+    border: 1px solid #4f4f4f;
 }
 
 .nist-footer {
@@ -34,5 +34,9 @@
 }
 
 .header-provide {
-    height: 80px;
+    background-image: url(../img/landing_header_bg.png);
+}
+
+.header-provide img {
+    vertical-align: middle !important;
 }
