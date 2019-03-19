@@ -14,13 +14,21 @@
 }
 
 .feedback-link {
-    margin-top: 20px;
+    position: absolute;
+    top: 60px;
+    right: 40px;
     color: #2f2f2f;
     text-decoration: none;
     border: 1px solid #2f2f2f;
     padding: 5px 15px;
     text-align: center;
-    display: inline-block;
+    vertical-align: middle !important;
+    max-width: 250px !important;
+    min-width: 250px !important;
+    max-height: 50px !important;
+    min-height: 50px !important;
+    font-size: 20px !important;
+    line-height: 40px !important;
 }
 
 .feedback-link:hover {
