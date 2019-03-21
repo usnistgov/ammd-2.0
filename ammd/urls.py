@@ -1,5 +1,4 @@
 """ammd URL Configuration
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.8/topics/http/urls/
 Examples:
@@ -14,9 +13,10 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+
 import ammd.views.user.views as user_views
 from core_main_app.views.user import views as main_user_views
-
+from core_parser_app.tools.modules.discover import discover_modules
 
 urlpatterns = [
     url(r'^$', user_views.landing_page, name='ammd_landing_page'),
@@ -29,5 +29,12 @@ urlpatterns = [
     url(r'^dashboard/', include("core_dashboard_app.urls")),
     url(r'^query-ontology/', include("core_explore_tree_app.urls")),
     url(r'^schema_viewer/', include("core_schema_viewer_app.urls")),
+    url(r'^visualization/', include("core_visualization_app.urls")),
+    url(r'^core-explore-common/', include("core_explore_common_app.urls")),
+    url(r'^core-explore-example/', include("core_explore_example_app.urls")),
+    url(r'^core-explore-keyword/', include("core_explore_keyword_app.urls")),
+    url(r'^', include('core_module_blob_host_app.urls')),
+    url(r'^', include('core_module_advanced_blob_host_app.urls')),
+    url(r'^', include('core_module_remote_blob_host_app.urls')),
 ]
-
+discover_modules(urlpatterns)
