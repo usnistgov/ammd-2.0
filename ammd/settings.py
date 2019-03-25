@@ -61,10 +61,12 @@ INSTALLED_APPS = (
     "core_dashboard_app",
     "core_dashboard_common_app",
     "core_schema_viewer_app",
+    "core_cache_manager_app",
+    
+    # Modules
     "core_module_blob_host_app",
     "core_module_advanced_blob_host_app",
     "core_module_remote_blob_host_app",
-    "core_cache_manager_app"
 )
 
 MIDDLEWARE = (
@@ -205,10 +207,14 @@ connect(DB_NAME, host=MONGODB_URI)
 SERVER_EMAIL = ""
 EMAIL_SUBJECT_PREFIX = ""
 USE_EMAIL = False
-ADMINS = [('admin', 'admin@ammd.org')]
-MANAGERS = [('manager', 'moderator@ammd.org')]
+ADMINS = [('admin', 'admin@example.com')]
+MANAGERS = [('manager', 'moderator@example.com')]
 
 USE_BACKGROUND_TASK = False
+# FIXME: set a redis password in production
+# REDIS_PASSWORD = 'redispass'
+# REDIS_URL = 'redis://:' + REDIS_PASSWORD + '@localhost:6379/0'
+
 REDIS_URL = 'redis://localhost:6379/0'
 BROKER_URL = REDIS_URL
 BROKER_TRANSPORT_OPTIONS = {
@@ -367,3 +373,12 @@ CACHE_BACKEND = "locmem:///"
 EXPLORE_TREE_MENU_NAME = "Data Exploration"
 EXPLORE_MENU_NAME = "Data Query"
 CURATE_MENU_NAME = "Data Curation"
+
+
+SSL_CERTIFICATES_DIR = 'certs'
+""" :py:class:`str`: SSL certificates directory location.
+"""
+
+XSD_URI_RESOLVER = None
+""" :py:class:`str`: XSD URI Resolver for lxml validation. Choose from:  None, 'REQUESTS_RESOLVER'.
+"""
