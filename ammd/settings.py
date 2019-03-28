@@ -323,39 +323,39 @@ DATA_DISPLAY_NAME = 'record'
 DRAFT_DISPLAY_NAME = 'draft'
 WORKSPACE_DISPLAY_NAME = 'workspace'
 
-
+# CACHE CONFIGURATION
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'loc1',
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'loc_default',
         'TIMEOUT': None
     },
     'navigation': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'loc2',
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'loc_navigation',
         'TIMEOUT': None
     },
     'html_tree': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'loc3',
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'loc_tree',
         'TIMEOUT': None
     },
     'leaf': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'loc4',
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'loc_leaf',
         'TIMEOUT': None,
         'OPTIONS': {
             'MAX_ENTRIES': 2000
         }
     },
     'branch': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'loc5',
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'loc_branch',
         'TIMEOUT': None
     },
     'link': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'loc6',
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'loc_link',
         'TIMEOUT': None,
         'OPTIONS': {
             'MAX_ENTRIES': 2000
@@ -363,13 +363,7 @@ CACHES = {
     },
 }
 
-CACHE_MIDDLEWARE_ALIAS = 'default'
-CACHE_MIDDLEWARE_SECONDS = 604800
-CACHE_MIDDLEWARE_KEY_PREFIX = ''
-CACHE_BACKEND = "locmem:///"
-
-# Menus names
-
+# MENUS NAMES
 EXPLORE_TREE_MENU_NAME = "Data Exploration"
 EXPLORE_MENU_NAME = "Data Query"
 CURATE_MENU_NAME = "Data Curation"
