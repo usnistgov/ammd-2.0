@@ -48,25 +48,28 @@ INSTALLED_APPS = (
 
     # Core apps
     "core_main_app",
-    "core_explore_tree_app",
-    "core_visualization_app",
     "core_website_app",
+    "core_explore_tree_app",
+    "core_schema_viewer_app",
+    "core_curate_app",
     "core_explore_common_app",
     "core_explore_keyword_app",
     "core_explore_example_app",
-    "core_curate_app",
+    "core_visualization_app",
     "core_parser_app",
     "core_parser_app.tools.modules",  # FIXME: make modules an app
     "core_parser_app.tools.parser",  # FIXME: make parser an app
     "core_dashboard_app",
     "core_dashboard_common_app",
-    "core_schema_viewer_app",
     "core_cache_manager_app",
     
     # Modules
     "core_module_blob_host_app",
     "core_module_advanced_blob_host_app",
     "core_module_remote_blob_host_app",
+
+    # Local apps
+    "ammd_home"
 )
 
 MIDDLEWARE = (
@@ -364,10 +367,19 @@ CACHES = {
 }
 
 # MENUS NAMES
-EXPLORE_TREE_MENU_NAME = "Data Exploration"
-EXPLORE_MENU_NAME = "Data Query"
-CURATE_MENU_NAME = "Data Curation"
+EXPLORE_TREE_MENU_NAME = "Browse Database"
+EXPLORE_MENU_NAME = "Search Data"
+CURATE_MENU_NAME = "Curate Data"
+SCHEMA_VIEWER_MENU_NAME = "View Schema"
+EXPLORE_EXAMPLE_MENU_NAME = "Data Query"
+ADVANCED_MENU_NAME = "Advanced Functions"
+VISUALIZATION_USER_MENU_NAME = "Data Visualization"
 
+
+CAN_ANONYMOUS_ACCESS_PUBLIC_DATA = True
+
+""" boolean: Can anonymous user access public data
+"""
 
 SSL_CERTIFICATES_DIR = 'certs'
 """ :py:class:`str`: SSL certificates directory location.

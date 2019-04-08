@@ -7,14 +7,24 @@
                 <a href="{% url 'ammd_landing_page' %}">
                     <span id="logo" style="color: white;">AM Material Database</span>
                 </a>
+
+            {% generate_menu %}
             {% for item in menus.main %}
                 <li {% if item == selected_menu %}class="current"{% endif %}>
                     <a href="{{ item.url }}"><i class="fa fa-{{ item.icon }}"></i> {{ item.title }}</a>
                 </li>
             {% endfor %}
-            <li>
-                <a target="_blank" href="{% url 'swagger_view' %}">Data Interface</a>
-            </li>
+                <li class="nested">
+            <a href="#">
+                Advanced Functions<i class="fa fa-caret-down"></i></a>
+            <ul>
+                {% generate_menu %}
+            {% for item in menus.advanced %}
+                    <li><a href="{{ item.url }}">{% if item.icon %}<i class="fa fa-{{ item.icon }}"></i>{% endif %} {{ item.title }}</a></li>
+                {% endfor %}
+        <li><a target="_blank" href="{% url 'swagger_view' %}">Rest API</a></li>
+        </ul>
+        </li>
         {% endblock %}
 
         {% if 'core_website_app' in INSTALLED_APPS %}
