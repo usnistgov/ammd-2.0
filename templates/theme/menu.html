@@ -4,11 +4,6 @@
     <ul>
         {% block navigation_menu %}
             {% generate_menu %}
-                <a href="{% url 'ammd_landing_page' %}">
-                    <span id="logo" style="color: white;">AM Material Database</span>
-                </a>
-
-            {% generate_menu %}
             {% for item in menus.main %}
                 <li {% if item == selected_menu %}class="current"{% endif %}>
                     <a href="{{ item.url }}"><i class="fa fa-{{ item.icon }}"></i> {{ item.title }}</a>
