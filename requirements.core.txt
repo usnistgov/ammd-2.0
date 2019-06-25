@@ -7,7 +7,7 @@ core-schema-viewer-app==1.2.0
 core_module_blob_host_app==1.2.0
 core_module_advanced_blob_host_app==1.2.0
 core_module_remote_blob_host_app==1.2.0
-core_cache_manager_app==1.0.0-beta1
-core_visualization_app==1.0.0-beta1
+core_cache_manager_app==1.0.0
+core_visualization_app==1.0.0
 core_explore_keyword_app==1.2.0
 core_explore_example_app==1.2.0
