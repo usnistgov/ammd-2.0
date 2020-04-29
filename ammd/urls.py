@@ -16,6 +16,7 @@ from django.urls import re_path
 from django.contrib import admin
 
 from core_parser_app.tools.modules.discover import discover_modules
+from ammd.views.admin import views as admin_views
 
 urlpatterns = [
     re_path(r'^', include("core_main_app.urls")),
@@ -37,5 +38,6 @@ urlpatterns = [
     re_path(r'^', include('core_module_blob_host_app.urls')),
     re_path(r'^', include('core_module_advanced_blob_host_app.urls')),
     re_path(r'^', include('core_module_remote_blob_host_app.urls')),
+    re_path(r'^visits-hits/$', admin_views.get_visits_number, name='get_visits_number'),
 ]
 discover_modules(urlpatterns)

@@ -1,0 +1,14 @@
+{% extends "core_main_app/_render/admin/theme/tools/section.html" %}
+{% load staticfiles %}
+
+{% block section_title %}{{ data.object_name }} counter{% endblock %}
+
+{% block section_content %}
+    <div class="row">
+        <div class="col-md-12">
+            {% block list_includes %}
+                {% include 'ammd/admin/visit/visits_info.html' %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

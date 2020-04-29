@@ -88,6 +88,7 @@ MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',
     'tz_detect.middleware.TimezoneMiddleware',
     # 'password_policies.middleware.PasswordChangeMiddleware',
+    "ammd.middleware.GetVisits"
 )
 
 ROOT_URLCONF = 'ammd.urls'

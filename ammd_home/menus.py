@@ -44,3 +44,6 @@ Menu.add_item(
 Menu.add_item(
     "advanced", MenuItem(VISUALIZATION_USER_MENU_NAME, reverse("core_visualization_index"))
 )
+Menu.add_item(
+    "admin", MenuItem("VISITS COUNTER", reverse("get_visits_number"), icon="tachometer-alt")
+)

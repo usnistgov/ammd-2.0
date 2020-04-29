@@ -1,0 +1,57 @@
+{% extends 'core_main_app/_render/admin/theme/tools/box.html' %}
+
+{% block box_title %}Users visits{% endblock %}
+
+{% block box_tools %}
+{% endblock %}
+
+{% block box_body %}
+    {% if data.error %}
+        <div class="alert alert-danger">
+            <div id="explore-view-error" style="margin-top: 50px; ">{{data.error}}</div>
+        </div>
+    {% else %}
+    The app was visited {{data.visits_hits}} time(s). Here is the list of the visitors:
+        <table class="table table-bordered table-striped table-hover">
+            <tr>
+                <th width="30%">User name</th>
+                <th>Number of visits</th>
+                <th>Date(s)</th>
+            </tr>
+
+            {% for object in data.visits %}
+            <script language="JavaScript">
+                    var score = 0;
+            </script>
+            {% for obj in object.sessions %}
+                <script>
+                        score = score + 1;
+                </script>
+            {% endfor %}
+            <tr>
+                <td>
+                    {{object.user}}
+                </td>
+                <td>
+                    <script>
+                        document.write(score)
+                    </script>
+                </td>
+                <td>
+                    {% for obj in object.related_date %}
+                        {{ obj|date:'Y-m-d h:i A' |linebreaks }}
+                    {% endfor %}
+
+                <td/>
+            </tr>
+            {% empty %}
+            <tr>
+                <td class="empty" colspan="4">
+                    No data available.
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+    {% endif %}
+{% endblock %}
