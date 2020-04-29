@@ -15,9 +15,10 @@
     * Help
 """
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from ammd.settings import EXPLORE_EXAMPLE_MENU_NAME, EXPLORE_MENU_NAME, \
     EXPLORE_TREE_MENU_NAME, VISUALIZATION_USER_MENU_NAME, CURATE_MENU_NAME, SCHEMA_VIEWER_MENU_NAME
+
 from menu import Menu, MenuItem
 
 Menu.items["main"] = []
@@ -36,7 +37,6 @@ Menu.add_item(
 Menu.add_item(
     "main", MenuItem(EXPLORE_MENU_NAME, reverse("core_explore_keyword_app_search"))
 )
-
 
 Menu.add_item(
     "advanced", MenuItem(EXPLORE_EXAMPLE_MENU_NAME, reverse("core_explore_example_index"))

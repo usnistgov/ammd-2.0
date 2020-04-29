@@ -26,7 +26,6 @@ ALLOWED_HOSTS = []
 
 MENU_SELECT_PARENTS = False
 
-
 # Application definition
 
 INSTALLED_APPS = (
@@ -39,12 +38,14 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     # Extra apps
-    "password_policies",
+    # "password_policies",
     "rest_framework",
     "rest_framework_swagger",
     "rest_framework_mongoengine",
     "menu",
     "tz_detect",
+    "drf_yasg",
+    "oauth2_provider",
 
     # Core apps
     "core_main_app",
@@ -62,11 +63,14 @@ INSTALLED_APPS = (
     "core_dashboard_app",
     "core_dashboard_common_app",
     "core_cache_manager_app",
-    
+    "core_federated_search_app",
+    "core_explore_federated_search_app",
+
     # Modules
     "core_module_blob_host_app",
     "core_module_advanced_blob_host_app",
     "core_module_remote_blob_host_app",
+    "core_file_preview_app",
 
     # Local apps
     "ammd_home"
@@ -78,7 +82,7 @@ MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    # 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -374,7 +378,6 @@ SCHEMA_VIEWER_MENU_NAME = "View Schema"
 EXPLORE_EXAMPLE_MENU_NAME = "Data Query"
 ADVANCED_MENU_NAME = "Advanced Functions"
 VISUALIZATION_USER_MENU_NAME = "Data Visualization"
-
 
 CAN_ANONYMOUS_ACCESS_PUBLIC_DATA = True
 
