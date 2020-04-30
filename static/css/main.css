@@ -2460,6 +2460,33 @@
 					display: none;
 				}
 
+.cdcs-menu-item {
+    padding: 3px;
+    min-width: 205px;
+}
+
+.float-right {
+    float: right !important;
+}
+
+#cdcs-menu-title a {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  margin-left: 1.2em;
+}
+
+#nav > ul > #cdcs-main {
+  float: left;
+  text-align: left;
+  padding-left: 2em;
+}
+
+#nav > ul > #cdcs-main > a {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
 .cdcs-menu__item {
   list-style: none;
 }

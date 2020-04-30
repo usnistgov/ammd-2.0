@@ -23,12 +23,12 @@
         {% endblock %}
 
         {% if 'core_website_app' in INSTALLED_APPS %}
-            <li class="nested pull-right">
+            <li class="nested float-right">
                 <a href="{% url 'core_website_app_help' %}"><i class="fa fa-question-circle"></i> Help</a>
             </li>
         {% endif %}
 
-        <li class="nested pull-right" style="margin-top: 5px;">
+        <li class="nested float-right" style="margin-top: 5px;">
             {% if user.is_authenticated %}
             <a href="#" class="btn-custom">
                 <i class="fa fa-user"></i> {{ user }} <i class="fa fa-chevron-down"></i>
