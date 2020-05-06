@@ -39,5 +39,6 @@ urlpatterns = [
     re_path(r'^', include('core_module_advanced_blob_host_app.urls')),
     re_path(r'^', include('core_module_remote_blob_host_app.urls')),
     re_path(r'^visits-hits/$', admin_views.get_visits_number, name='get_visits_number'),
+    re_path(r'^visualization-insitu/', include("core_visualization_insitu_app.urls")),
 ]
 discover_modules(urlpatterns)

@@ -17,7 +17,8 @@
 
 from django.urls import reverse
 from ammd.settings import EXPLORE_EXAMPLE_MENU_NAME, EXPLORE_MENU_NAME, \
-    EXPLORE_TREE_MENU_NAME, VISUALIZATION_USER_MENU_NAME, CURATE_MENU_NAME, SCHEMA_VIEWER_MENU_NAME
+    EXPLORE_TREE_MENU_NAME, VISUALIZATION_USER_MENU_NAME, CURATE_MENU_NAME, SCHEMA_VIEWER_MENU_NAME, \
+    VISUALIZATION_INSITU_USER_MENU_NAME
 
 from menu import Menu, MenuItem
 
@@ -46,4 +47,7 @@ Menu.add_item(
 )
 Menu.add_item(
     "admin", MenuItem("VISITS COUNTER", reverse("get_visits_number"), icon="tachometer-alt")
+)
+Menu.add_item(
+    "advanced", MenuItem(VISUALIZATION_INSITU_USER_MENU_NAME, reverse("core_visualization_insitu_index"))
 )

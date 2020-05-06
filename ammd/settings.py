@@ -65,6 +65,7 @@ INSTALLED_APPS = (
     "core_cache_manager_app",
     "core_federated_search_app",
     "core_explore_federated_search_app",
+    "core_visualization_insitu_app",
 
     # Modules
     "core_module_blob_host_app",
@@ -379,8 +380,9 @@ SCHEMA_VIEWER_MENU_NAME = "View Schema"
 EXPLORE_EXAMPLE_MENU_NAME = "Data Query"
 ADVANCED_MENU_NAME = "Advanced Functions"
 VISUALIZATION_USER_MENU_NAME = "Data Visualization"
+VISUALIZATION_INSITU_USER_MENU_NAME = "Insitu Data Visualization"
 
-CAN_ANONYMOUS_ACCESS_PUBLIC_DATA = True
+CAN_ANONYMOUS_ACCESS_PUBLIC_DOCUMENT = True
 
 """ boolean: Can anonymous user access public data
 """
