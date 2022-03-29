@@ -4,7 +4,7 @@ from ammd.components.visit.models import Visit
 
 
 def update_sessions(visit, session_key, date):
-    """ Save or Updates the sessions associated to the user visits.
+    """Save or Updates the sessions associated to the user visits.
 
     Args:
     Visit object
@@ -20,7 +20,7 @@ def update_sessions(visit, session_key, date):
 
 
 def upsert(visit):
-    """ Save or Updates the id the Visit object.
+    """Save or Updates the id the Visit object.
 
     Args:
     Visit object
@@ -32,7 +32,7 @@ def upsert(visit):
 
 
 def upsert_visit_object(user, session_key, date):
-    """ Create or Updates the sessions of the Visit object.
+    """Create or Updates the sessions of the Visit object.
 
     Args:
     user: represents the user who is visiting the app
@@ -52,7 +52,7 @@ def upsert_visit_object(user, session_key, date):
 
 
 def get_all_visits():
-    """ Return all Visits objects from the database.
+    """Return all Visits objects from the database.
 
     Returns:
 
@@ -61,7 +61,7 @@ def get_all_visits():
 
 
 def delete_visits():
-    """ Remove all Visits objects from the database.
+    """Remove all Visits objects from the database.
 
     Returns:
 

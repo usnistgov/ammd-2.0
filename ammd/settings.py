@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '<secret_key>'
+SECRET_KEY = "<secret_key>"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -25,28 +25,27 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 MENU_SELECT_PARENTS = False
+CELERYBEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 # Application definition
 
 INSTALLED_APPS = (
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.sites',
-    'django.contrib.staticfiles',
-
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.sites",
+    "django.contrib.staticfiles",
     # Extra apps
-    # "password_policies",
     "rest_framework",
-    "rest_framework_swagger",
     "rest_framework_mongoengine",
     "menu",
     "tz_detect",
     "drf_yasg",
     "oauth2_provider",
-
+    "captcha",
+    "django_celery_beat",
     # Core apps
     "core_main_app",
     "core_website_app",
@@ -66,72 +65,68 @@ INSTALLED_APPS = (
     "core_federated_search_app",
     "core_explore_federated_search_app",
     "core_visualization_insitu_app",
-
+    "core_file_preview_app",
     # Modules
     "core_module_blob_host_app",
     "core_module_advanced_blob_host_app",
     "core_module_remote_blob_host_app",
-    "core_file_preview_app",
-
     # Local apps
-    "ammd_home"
+    "ammd_home",
 )
 
 MIDDLEWARE = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
     # 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'tz_detect.middleware.TimezoneMiddleware',
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.security.SecurityMiddleware",
+    "tz_detect.middleware.TimezoneMiddleware",
     # 'password_policies.middleware.PasswordChangeMiddleware',
-    "ammd.middleware.GetVisits"
+    "ammd.middleware.GetVisits",
 )
 
-ROOT_URLCONF = 'ammd.urls'
+ROOT_URLCONF = "ammd.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            'templates'
-        ],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'core_main_app.utils.custom_context_processors.domain_context_processor',  # Needed by any curator app
-                'django.template.context_processors.i18n',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": ["templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "core_main_app.utils.custom_context_processors.domain_context_processor",  # Needed by any curator app
+                "django.template.context_processors.i18n",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'ammd.wsgi.application'
+WSGI_APPLICATION = "ammd.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -139,97 +134,98 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR, 'locale'),
-)
+LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = 'static.prod'
+STATIC_URL = "/static/"
+STATIC_ROOT = "static.prod"
 
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'django.contrib.staticfiles.finders.FileSystemFinder',
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "django.contrib.staticfiles.finders.FileSystemFinder",
 )
 
-STATICFILES_DIRS = (
-    'static',
-)
+STATICFILES_DIRS = ("static",)
 
 # Logging
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'formatters': {
-        'standard': {
-            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-            'datefmt': "%d/%b/%Y %H:%M:%S"
+    "version": 1,
+    "disable_existing_loggers": True,
+    "formatters": {
+        "standard": {
+            "format": "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            "datefmt": "%d/%b/%Y %H:%M:%S",
         },
     },
-    'handlers': {
-        'null': {
-            'level': 'DEBUG',
-            'class': 'logging.NullHandler',
+    "handlers": {
+        "null": {
+            "level": "DEBUG",
+            "class": "logging.NullHandler",
         },
-        'logfile': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, "logfile"),
-            'maxBytes': 50000,
-            'backupCount': 2,
-            'formatter': 'standard',
+        "logfile": {
+            "level": "DEBUG",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": os.path.join(BASE_DIR, "logfile"),
+            "maxBytes": 50000,
+            "backupCount": 2,
+            "formatter": "standard",
         },
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'standard'
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "standard",
         },
     },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'propagate': True,
-            'level': 'WARN',
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "propagate": True,
+            "level": "WARN",
         },
-        'django.db.backends': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
+        "django.db.backends": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": False,
         },
-        '': {  # use 'MYAPP' to make it app specific
-            'handlers': ['console', 'logfile'],
-            'level': 'DEBUG',
+        "": {  # use 'MYAPP' to make it app specific
+            "handlers": ["console", "logfile"],
+            "level": "DEBUG",
         },
-    }
+    },
 }
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
 
 MONGO_USER = "mgi_user"
 MONGO_PASSWORD = "mgi_password"
 DB_NAME = "mgi"
 DB_SERVER = "localhost"
-MONGODB_URI = "mongodb://" + MONGO_USER + ":" + MONGO_PASSWORD + "@" + DB_SERVER + "/" + DB_NAME
+MONGODB_URI = (
+    "mongodb://" + MONGO_USER + ":" + MONGO_PASSWORD + "@" + DB_SERVER + "/" + DB_NAME
+)
 connect(DB_NAME, host=MONGODB_URI)
 
 # core_main_app settings
 SERVER_EMAIL = ""
 EMAIL_SUBJECT_PREFIX = ""
 USE_EMAIL = False
-ADMINS = [('admin', 'admin@example.com')]
-MANAGERS = [('manager', 'moderator@example.com')]
+ADMINS = [("admin", "admin@example.com")]
+MANAGERS = [("manager", "moderator@example.com")]
 
 USE_BACKGROUND_TASK = False
 # FIXME: set a redis password in production
 # REDIS_PASSWORD = 'redispass'
 # REDIS_URL = 'redis://:' + REDIS_PASSWORD + '@localhost:6379/0'
 
-REDIS_URL = 'redis://localhost:6379/0'
+REDIS_URL = "redis://localhost:6379/0"
 BROKER_URL = REDIS_URL
 BROKER_TRANSPORT_OPTIONS = {
-    'visibility_timeout': 3600,
-    'fanout_prefix': True,
-    'fanout_patterns': True
+    "visibility_timeout": 3600,
+    "fanout_prefix": True,
+    "fanout_patterns": True,
 }
 CELERY_RESULT_BACKEND = REDIS_URL
 
@@ -285,7 +281,7 @@ WEBSITE_SHORT_TITLE = "AMMD"
 DATA_AUTO_PUBLISH = True
 
 # Customization Label
-CUSTOM_CURATE = 'Add your resource'
+CUSTOM_CURATE = "Add your resource"
 CUSTOM_DATA = "Materials Data"
 CUSTOM_NAME = "AMMD"
 
@@ -297,26 +293,26 @@ SEARCHABLE_DATA_OCCURRENCES_LIMIT = None
 
 SWAGGER_SETTINGS = {
     "exclude_namespaces": [],  # List URL namespaces to ignore
-    "api_version": '1.1',  # Specify your API's version
+    "api_version": "1.1",  # Specify your API's version
     "api_path": "/",  # Specify the path to your API not a root level
     "enabled_methods": [  # Specify which methods to enable in Swagger UI
-        'get',
-        'post',
-        'put',
-        'patch',
-        'delete'
+        "get",
+        "post",
+        "put",
+        "patch",
+        "delete",
     ],
-    "api_key": '',  # An API key
+    "api_key": "",  # An API key
     "is_authenticated": False,  # Set to True to enforce user authentication,
     "is_superuser": False,  # Set to True to enforce admin only access
-    'LOGIN_URL': 'core_main_app_login',
-    'LOGOUT_URL': 'core_main_app_logout',
+    "LOGIN_URL": "core_main_app_login",
+    "LOGOUT_URL": "core_main_app_logout",
 }
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
     ),
     # 'DEFAULT_PERMISSION_CLASSES': (
     #     'rest_framework.permissions.IsAuthenticated',
@@ -328,47 +324,43 @@ HOMEPAGE_NB_LAST_TEMPLATES = 6
 PARSER_DOWNLOAD_DEPENDENCIES = True
 
 # DASHBOARD
-DATA_DISPLAY_NAME = 'record'
-DRAFT_DISPLAY_NAME = 'draft'
-WORKSPACE_DISPLAY_NAME = 'workspace'
+DATA_DISPLAY_NAME = "record"
+DRAFT_DISPLAY_NAME = "draft"
+WORKSPACE_DISPLAY_NAME = "workspace"
 
 # CACHE CONFIGURATION
 CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'loc_default',
-        'TIMEOUT': None
+    "default": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "loc_default",
+        "TIMEOUT": None,
     },
-    'navigation': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'loc_navigation',
-        'TIMEOUT': None
+    "navigation": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "loc_navigation",
+        "TIMEOUT": None,
     },
-    'html_tree': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'loc_tree',
-        'TIMEOUT': None
+    "html_tree": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "loc_tree",
+        "TIMEOUT": None,
     },
-    'leaf': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'loc_leaf',
-        'TIMEOUT': None,
-        'OPTIONS': {
-            'MAX_ENTRIES': 2000
-        }
+    "leaf": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "loc_leaf",
+        "TIMEOUT": None,
+        "OPTIONS": {"MAX_ENTRIES": 2000},
     },
-    'branch': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'loc_branch',
-        'TIMEOUT': None
+    "branch": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "loc_branch",
+        "TIMEOUT": None,
     },
-    'link': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'loc_link',
-        'TIMEOUT': None,
-        'OPTIONS': {
-            'MAX_ENTRIES': 2000
-        }
+    "link": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "loc_link",
+        "TIMEOUT": None,
+        "OPTIONS": {"MAX_ENTRIES": 2000},
     },
 }
 
@@ -387,10 +379,11 @@ CAN_ANONYMOUS_ACCESS_PUBLIC_DOCUMENT = True
 """ boolean: Can anonymous user access public data
 """
 
-SSL_CERTIFICATES_DIR = 'certs'
+SSL_CERTIFICATES_DIR = "certs"
 """ :py:class:`str`: SSL certificates directory location.
 """
 
 XSD_URI_RESOLVER = None
 """ :py:class:`str`: XSD URI Resolver for lxml validation. Choose from:  None, 'REQUESTS_RESOLVER'.
 """
+CQL_NAMESPACE = "http://siam.nist.gov/Database-Navigation-Ontology#"

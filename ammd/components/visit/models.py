@@ -7,8 +7,7 @@ from core_main_app.commons import exceptions
 
 
 class Visit(Document):
-    """ Visit object that represents a visit on the website
-    """
+    """Visit object that represents a visit on the website"""
 
     user = fields.StringField()
     sessions = fields.ListField(blank=True)
@@ -17,7 +16,7 @@ class Visit(Document):
     @staticmethod
     def get_all():
 
-        """ Get all Visits objects.
+        """Get all Visits objects.
 
         Returns:
 
@@ -27,7 +26,7 @@ class Visit(Document):
     @staticmethod
     def get_by_id(visit_id):
 
-        """ Return the object with the given id.
+        """Return the object with the given id.
 
         Args:
         data_cached_id:
@@ -56,7 +55,7 @@ class Visit(Document):
 
     def save_object(self):
 
-        """ Custom save.
+        """Custom save.
 
         Returns:
         Saved Instance.
@@ -72,7 +71,7 @@ class Visit(Document):
 
     @staticmethod
     def delete_objects():
-        """ Delete all Visits objects from the database.
+        """Delete all Visits objects from the database.
 
         Returns:
 
