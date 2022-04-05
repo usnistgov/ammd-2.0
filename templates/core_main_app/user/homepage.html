@@ -2,52 +2,84 @@
 <div class="row">
     <div class="col-md-12">
         <div class="row" id="intro">
-            <div class="col-md-6 text-center">
-                <img src="{% static 'img/home_link.png' %}" alt="landing_header" class="img-homepage"/>
+            <div class="col-md-12 text-center">
                 <p style="margin-top: 1.5em; text-align: justify">
-                    The Additive Manufacturing Materials Database (AMMD) is built using the NIST Material Data Curation System
-                    (MDCS) as a backend with structure provided by NIST’s AM schema. Providing a collaboration platform, the
-                    database is set to evolve through the open data access and material data sharing among the AM community. As
-                    data sets continue to accumulate, it becomes possible to establish new correlations between processes,
-                    materials, and parts.
-                </p>
-                <p style="margin-top: 1.5em; text-align: justify">
-                    The schema, or data structure, provides the backbone of the AMMD.  The relationships created by the
-                    structure are essential to supporting meaningful data curation and data retrieval.  As the AMMD matures
-                    through iterations, it is the data structure that will need to evolve to support the development of
-                    meaningful relationships that can be used to query the database.
-                </p>
-                <p style="margin-top: 1.5em; text-align: justify">
-                    Since part design information and test data are linked to individual builds, we structure the data sets
-                    into three types of main entities, as shown in Figure 1. The first entity type “amMaterial” captures vendor
-                    material information. The second type of entity “amMachine” captures AM machine information. The data
-                    captured by these two types are independent of specific builds and can be provided by material vendors and
-                    machine owners. The third type of database entity “amBuild” captures the information related to a specific
-                    AM build, including part and specimen design, pre-process, in-process and post process information, as well
-                    as test information.
+                    The open access <b>Additive Manufacturing Materials Database (AMMD)</b> is a collaborative
+                    platform that shares structured material data to the AM community advancing the
+                    development of AM technology.
                 </p>
             </div>
-            <div class="col-md-6" id="links" style="text-align: center;">
-                <img src="{% static 'img/home_left_schema.png' %}" alt="landing_header" class="img-homepage"/>
-                <p style="margin-top: 1.5em;">
-                    Read more about the Schema Development
-                    <a target="_blank" href="https://www.nist.gov/node/557011"> Here</a>
+
+            <div class="col-md-5" id="links" style="text-align: center;">
+                <p style="margin-top: -2em; text-align: justify; text-decoration: underline">
+                    <b>Applications</b>
                 </p>
-                <p style="margin-top: -20px;">
-                    Read more about the Development of AMMD
-                    <a target="_blank" href="{% static 'files/MST2016Poster.pdf' %}"> Here</a>
+                <p style="margin-top: 1em; text-align: justify">
+                    <b>1. Data sharing:</b> If you know what kind of datasets you’re looking for, then you can start by
+                    <a target="_blank" href="https://ammd.nist.gov/query-ontology/"> browsing our database.</a>
+                    Otherwise, you can use our
+                    <a target="_blank" href="https://ammd.nist.gov/core-explore-keyword/"> data search</a>
+                    function.
                 </p>
-                <p style="margin-top: -20px;">
-                    Read more about the Development of MDCS
-                    <a target="_blank" href="https://mgi.nist.gov/materials-data-curation-system"> Here</a>
+                <p style="margin-top: -0.5em; text-align: justify">
+                    <b>2. Data schema:</b> If you already have data but don’t know how to structure it, then you can start by
+                    <a target="_blank" href="https://ammd.nist.gov/schema_viewer/"> viewing our data schema</a>
+                    or using AMMD's
+                    <a target="_blank" href="https://ammd.nist.gov/curate/">Curate Data</a>
+                    tool.
                 </p>
-                 <p>
-                    <img src="{% static 'img/home_data_package.png' %}" alt="landing_header" class="img-homepage"/>
-                 </p>
-                <p style="margin-top: -20px;">
-                    Read more about Data Packages for AM
-                    <a target="_blank" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5497595/"> Here</a>
+                <p style="margin-top: -0.5em; text-align: justify">
+                    <b>3. Software development:</b> AMMD offers free, open-source software that users can download and change
+                    to fit their needs. You can find this software on our
+                    <a target="_blank" href="https://github.com/usnistgov/ammd-2.0">GitHub repo.</a>
                 </p>
+            </div>
+
+            <div class="col-md-7" style="text-align: center;">
+                <img src="{% static 'img/AMMD_home_img.png' %}" alt="landing_header" class="img-homepage" width="800"/>
+                <p style="margin-top: 1em; text-align: justify; font-size: 17px; text-align: center">
+                    Learn more about
+                    <a target="_blank" href="https://www.nist.gov/el/ammt-temps">NIST Additive Metrology Test Bed (AMMT)</a>
+                </p>
+            </div>
+
+            <div class="col-md-12" style="text-align: center;">
+                <p style="margin-top: -3em; text-align: justify; text-decoration: underline">
+                    <b>About AMMD</b>
+                </p>
+                <p style="margin-top: 1.5em; text-align: justify">
+                    The Additive Manufacturing Materials Database (AMMD) is built using the National Institute of Standards
+                    and Technology’s
+                    <a target="_blank" href="https://www.nist.gov/programs-projects/materials-data-curation-system">Material Data Curation System</a>
+                    (MDCS) as a backend with structure provided by NIST’s additive manufacturing (AM) schema. Providing
+                    a collaboration platform, the database is set to evolve through the open data access and material data
+                    sharing among the AM community. As data sets continue to accumulate, new correlations can be established
+                    between processes, materials, and parts.
+                </p>
+                <p style="margin-top: 1.5em; text-align: justify">
+                    Learn more about the
+                    <a target="_blank" href="https://ammd.nist.gov/static/files/MST2016Poster.pdf">development of AMMD.</a>
+                </p>
+                <p style="margin-top: 1.5em; text-align: justify">
+                    The schema, or data structure, represents the backbone of the AMMD. The relationships created by the
+                    structure are essential to supporting meaningful data curation and data retrieval. As the AMMD matures
+                    through iterations, the data structure will need to evolve to support the development of meaningful
+                    relationships that can be used to query the database.
+                </p>
+                <p style="margin-top: 1.5em; text-align: justify">
+                    Learn more about
+                    <a target="_blank" href="https://www.nist.gov/publications/towards-integrated-data-schema-design-additive-manufacturing-conceptual-modeling">
+                        schema development.</a>
+                </p>
+                <p style="margin-top: -1.5em; text-align: justify">
+                    Learn more about
+                    <a target="_blank" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5497595/">data packages</a>
+                    for AM.
+                </p>
+            </div>
+
+            <div class="col-md-12" style="text-align: center; margin-top: 1em;">
+                <img src="{% static 'img/home_left_schema.png' %}" alt="landing_header" class="img-homepage" width="1000"/>
             </div>
         </div>
     </div>
