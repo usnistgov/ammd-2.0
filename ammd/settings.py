@@ -7,9 +7,15 @@ https://docs.djangoproject.com/en/1.8/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
-import os
-
 from mongoengine.connection import connect
+
+from core_main_app.utils.logger.logger_utils import (
+    set_generic_handler,
+    set_generic_logger,
+    update_logger_with_local_app,
+)
+from .core_settings import *
+import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -17,15 +23,67 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "<secret_key>"
+SECRET_KEY = (
+    os.environ["DJANGO_SECRET_KEY"] if "DJANGO_SECRET_KEY" in os.environ else None
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = (
+    os.environ["ALLOWED_HOSTS"].split(",") if "ALLOWED_HOSTS" in os.environ else []
+)
 
-MENU_SELECT_PARENTS = False
+# Database
+# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "HOST": os.environ["POSTGRES_HOST"] if "POSTGRES_HOST" in os.environ else None,
+        "PORT": int(os.environ["POSTGRES_PORT"])
+        if "POSTGRES_PORT" in os.environ
+        else 5432,
+        "NAME": os.environ["POSTGRES_DB"] if "POSTGRES_DB" in os.environ else None,
+        "USER": os.environ["POSTGRES_USER"] if "POSTGRES_USER" in os.environ else None,
+        "PASSWORD": os.environ["POSTGRES_PASS"]
+        if "POSTGRES_PASS" in os.environ
+        else None,
+    }
+}
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
+MONGO_HOST = os.environ["MONGO_HOST"] if "MONGO_HOST" in os.environ else ""
+MONGO_PORT = os.environ["MONGO_PORT"] if "MONGO_PORT" in os.environ else "27017"
+MONGO_DB = os.environ["MONGO_DB"] if "MONGO_DB" in os.environ else ""
+MONGO_USER = os.environ["MONGO_USER"] if "MONGO_USER" in os.environ else ""
+MONGO_PASS = os.environ["MONGO_PASS"] if "MONGO_PASS" in os.environ else ""
+MONGODB_URI = (
+    f"mongodb://{MONGO_USER}:{MONGO_PASS}@{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB}"
+)
+connect(host=MONGODB_URI, connect=False)
+
+BROKER_TRANSPORT_OPTIONS = {
+    "visibility_timeout": 3600,
+    "fanout_prefix": True,
+    "fanout_patterns": True,
+}
+
+# FIXME: set a redis password in production
+REDIS_HOST = os.environ["REDIS_HOST"] if "REDIS_HOST" in os.environ else ""
+REDIS_PORT = os.environ["REDIS_PORT"] if "REDIS_PORT" in os.environ else "6379"
+REDIS_PASS = os.environ["REDIS_PASS"] if "REDIS_PASS" in os.environ else None
+
+if REDIS_PASS:
+    REDIS_URL = f"redis://:{REDIS_PASS}@{REDIS_HOST}:{REDIS_PORT}"
+else:
+    REDIS_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}"
+
+BROKER_URL = REDIS_URL
+CELERY_RESULT_BACKEND = REDIS_URL
 CELERYBEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
 
 # Application definition
 
@@ -89,8 +147,6 @@ MIDDLEWARE = (
     "ammd.middleware.GetVisits",
 )
 
-ROOT_URLCONF = "ammd.urls"
-
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -109,17 +165,10 @@ TEMPLATES = [
     },
 ]
 
+ROOT_URLCONF = "ammd.urls"
+
 WSGI_APPLICATION = "ammd.wsgi.application"
 
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-    }
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -149,148 +198,69 @@ STATICFILES_FINDERS = (
 
 STATICFILES_DIRS = ("static",)
 
-# Logging
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": True,
-    "formatters": {
-        "standard": {
-            "format": "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-            "datefmt": "%d/%b/%Y %H:%M:%S",
+
+# Password Validators
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {
+            "min_length": 8,
         },
     },
-    "handlers": {
-        "null": {
-            "level": "DEBUG",
-            "class": "logging.NullHandler",
-        },
-        "logfile": {
-            "level": "DEBUG",
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": os.path.join(BASE_DIR, "logfile"),
-            "maxBytes": 50000,
-            "backupCount": 2,
-            "formatter": "standard",
-        },
-        "console": {
-            "level": "INFO",
-            "class": "logging.StreamHandler",
-            "formatter": "standard",
+    {
+        "NAME": "core_main_app.commons.validators.UpperCaseLetterCountValidator",
+        "OPTIONS": {
+            "min_uppercase_letters": 1,
         },
     },
-    "loggers": {
-        "django": {
-            "handlers": ["console"],
-            "propagate": True,
-            "level": "WARN",
-        },
-        "django.db.backends": {
-            "handlers": ["console"],
-            "level": "DEBUG",
-            "propagate": False,
-        },
-        "": {  # use 'MYAPP' to make it app specific
-            "handlers": ["console", "logfile"],
-            "level": "DEBUG",
+    {
+        "NAME": "core_main_app.commons.validators.LowerCaseLetterCountValidator",
+        "OPTIONS": {
+            "min_lowercase_letters": 1,
         },
     },
+    {
+        "NAME": "core_main_app.commons.validators.NonAlphanumericCountValidator",
+        "OPTIONS": {
+            "min_nonalphanumeric_letters": 1,
+        },
+    },
+    {
+        "NAME": "core_main_app.commons.validators.DigitsCountValidator",
+        "OPTIONS": {
+            "min_digits": 1,
+        },
+    },
+    {
+        "NAME": "core_main_app.commons.validators.MaxOccurrenceCountValidator",
+        "OPTIONS": {
+            "max_occurrence": 5,
+        },
+    },
+]
+
+# Django REST Framework
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "oauth2_provider.contrib.rest_framework.OAuth2Authentication", ##
+    ),
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # )
 }
 
-DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
-
-
-MONGO_USER = "mgi_user"
-MONGO_PASSWORD = "mgi_password"
-DB_NAME = "mgi"
-DB_SERVER = "localhost"
-MONGODB_URI = (
-    "mongodb://" + MONGO_USER + ":" + MONGO_PASSWORD + "@" + DB_SERVER + "/" + DB_NAME
-)
-connect(DB_NAME, host=MONGODB_URI)
-
-# core_main_app settings
-SERVER_EMAIL = ""
-EMAIL_SUBJECT_PREFIX = ""
-USE_EMAIL = False
-ADMINS = [("admin", "admin@example.com")]
-MANAGERS = [("manager", "moderator@example.com")]
-
-USE_BACKGROUND_TASK = False
-# FIXME: set a redis password in production
-# REDIS_PASSWORD = 'redispass'
-# REDIS_URL = 'redis://:' + REDIS_PASSWORD + '@localhost:6379/0'
-
-REDIS_URL = "redis://localhost:6379/0"
-BROKER_URL = REDIS_URL
-BROKER_TRANSPORT_OPTIONS = {
-    "visibility_timeout": 3600,
-    "fanout_prefix": True,
-    "fanout_patterns": True,
-}
-CELERY_RESULT_BACKEND = REDIS_URL
-
-# core_website_app settings
-SERVER_URI = "http://localhost:8000"
-
-# Password Policy
-# Determines wether to use the password history.
-PASSWORD_USE_HISTORY = False
-# A list of raw strings representing paths to ignore while checking if a user has to change his/her password.
-PASSWORD_CHANGE_MIDDLEWARE_EXCLUDED_PATHS = []
-# Specifies the number of user's previous passwords to remember when the password history is being used.
-# PASSWORD_HISTORY_COUNT = 1
-# Determines after how many seconds a user is forced to change his/her password.
-# PASSWORD_DURATION_SECONDS = 24 * 90 * 3600
-# Don't log the person out in the middle of a session. Only do the checks at login time.
-PASSWORD_CHECK_ONLY_AT_LOGIN = True
-# Specifies the minimum length for passwords.
-PASSWORD_MIN_LENGTH = 5
-# Specifies the minimum amount of required letters in a password.
-PASSWORD_MIN_LETTERS = 0
-# Specifies the minimum amount of required uppercase letters in a password.
-PASSWORD_MIN_UPPERCASE_LETTERS = 0
-# Specifies the minimum amount of required lowercase letters in a password.
-PASSWORD_MIN_LOWERCASE_LETTERS = 0
-# Specifies the minimum amount of required numbers in a password.
-PASSWORD_MIN_NUMBERS = 0
-# Specifies the minimum amount of required symbols in a password.
-PASSWORD_MIN_SYMBOLS = 0
-# Specifies a list of common sequences to attempt to match a password against.
-# PASSWORD_COMMON_SEQUENCES = [u'0123456789', u'`1234567890-=', u'~!@#$%^&*()_+', u'abcdefghijklmnopqrstuvwxyz',
-#                             u"quertyuiop[]\\asdfghjkl;'zxcvbnm,./", u'quertyuiop{}|asdfghjkl;"zxcvbnm<>?',
-#                             u'quertyuiopasdfghjklzxcvbnm', u"1qaz2wsx3edc4rfv5tgb6yhn7ujm8ik,9ol.0p;/-['=]\\",
-#                             u'qazwsxedcrfvtgbyhnujmikolp']
-PASSWORD_COMMON_SEQUENCES = []
-# A minimum distance of the difference between old and new password. A positive integer.
-# Values greater than 1 are recommended.
-PASSWORD_DIFFERENCE_DISTANCE = 0
-# Specifies the maximum amount of consecutive characters allowed in passwords.
-PASSWORD_MAX_CONSECUTIVE = 10
-# A list of project specific words to check a password against.
-PASSWORD_WORDS = []
-
-# ===============================================
-# Website configuration
-# ===============================================
-# Choose from:  black, black-light, blue, blue-light, green, green-light, purple, purple-light, red, red-light, yellow,
-#               yellow-light
-WEBSITE_ADMIN_COLOR = "black-light"
-
-WEBSITE_SHORT_TITLE = "AMMD"
-
-DATA_AUTO_PUBLISH = True
-
-# Customization Label
-CUSTOM_CURATE = "Add your resource"
-CUSTOM_DATA = "Materials Data"
-CUSTOM_NAME = "AMMD"
-
-DISPLAY_NIST_HEADERS = True
-
-# FIXME: set desired value before release
-# Lists in data not stored if number of elements is over the limit (e.g. 100)
-SEARCHABLE_DATA_OCCURRENCES_LIMIT = None
-
+# drf-yasg
 SWAGGER_SETTINGS = {
     "exclude_namespaces": [],  # List URL namespaces to ignore
     "api_version": "1.1",  # Specify your API's version
@@ -309,24 +279,260 @@ SWAGGER_SETTINGS = {
     "LOGOUT_URL": "core_main_app_logout",
 }
 
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.BasicAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
-    ),
-    # 'DEFAULT_PERMISSION_CLASSES': (
-    #     'rest_framework.permissions.IsAuthenticated',
-    # )
+# Django Defender
+DEFENDER_REDIS_URL = REDIS_URL
+""" :py:class:`str`: The Redis url for defender. 
+"""
+DEFENDER_COOLOFF_TIME = 60
+""" integer: Period of inactivity after which old failed login attempts will be forgotten
+"""
+DEFENDER_LOGIN_FAILURE_LIMIT = 3
+""" integer: The number of login attempts allowed before a record is created for the failed login.
+"""
+DEFENDER_STORE_ACCESS_ATTEMPTS = True
+""" boolean: Store the login attempt to the database.
+"""
+DEFENDER_USE_CELERY = True
+""" boolean: Use Celery to store the login attempt to the database.
+"""
+DEFENDER_LOCKOUT_URL = "/locked"
+""" string: url to the defender error page (defined in core_main_app)
+"""
+
+# Django simple-menu
+MENU_SELECT_PARENTS = False
+
+# ammd home
+HOMEPAGE_NB_LAST_TEMPLATES = 6
+""" integer: How many templates are displayed on the homepage
+"""
+
+# Logging
+LOGGING_SERVER = True
+LOGGING_CLIENT = True
+LOGGING_DB = True
+
+LOGGER_FILE_SERVER = os.path.join(BASE_DIR, "logfile_server.txt")
+LOGGER_FILE_CLIENT = os.path.join(BASE_DIR, "logfile_client.txt")
+LOGGER_FILE_DB = os.path.join(BASE_DIR, "logfile_db.txt")
+LOGGER_FILE_SECURITY = os.path.join(BASE_DIR, "logfile_security.txt")
+LOGGER_FILE_APP = os.path.join(BASE_DIR, "logfile_app.txt")
+
+LOGGER_LEVEL = os.getenv("DJANGO_LOG_LEVEL", "DEBUG")
+LOGGER_CLIENT_LEVEL = os.getenv("DJANGO_LOG_LEVEL", "INFO")
+LOGGER_SERVER_LEVEL = os.getenv("DJANGO_LOG_LEVEL", "DEBUG")
+LOGGER_DB_LEVEL = os.getenv("DJANGO_LOG_LEVEL", "DEBUG")
+LOGGER_APP_LEVEL = os.getenv("DJANGO_LOG_LEVEL", "DEBUG")
+
+LOGGER_MAX_BYTES = 500000
+LOGGER_BACKUP_COUNT = 2
+
+local_logger_conf = {
+    "handlers": ["app_handler", "console"],
+    "level": LOGGER_APP_LEVEL,
 }
 
-HOMEPAGE_NB_LAST_TEMPLATES = 6
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "fmt-default": {
+            "format": "%(levelname)s: %(asctime)s\t%(name)s\t%(pathname)s\tl.%(lineno)s\t%(message)s",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+    },
+    "handlers": {
+        "logfile-security": {
+            "level": "DEBUG",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOGGER_FILE_SECURITY,
+            "maxBytes": LOGGER_MAX_BYTES,
+            "backupCount": LOGGER_BACKUP_COUNT,
+            "formatter": "fmt-default",
+        },
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "fmt-default",
+        },
+        "app_handler": {
+            "level": LOGGER_APP_LEVEL,
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOGGER_FILE_APP,
+            "maxBytes": LOGGER_MAX_BYTES,
+            "backupCount": LOGGER_BACKUP_COUNT,
+            "formatter": "fmt-default",
+        },
+    },
+    "loggers": {
+        "django.security": {
+            "handlers": ["console", "logfile-security"],
+            "level": LOGGER_LEVEL,
+            "propagate": True,
+        },
+    },
+}
 
-PARSER_DOWNLOAD_DEPENDENCIES = True
+update_logger_with_local_app(LOGGING, local_logger_conf, INSTALLED_APPS)
 
-# DASHBOARD
-DATA_DISPLAY_NAME = "record"
-DRAFT_DISPLAY_NAME = "draft"
-WORKSPACE_DISPLAY_NAME = "workspace"
+if LOGGING_CLIENT:
+    set_generic_handler(
+        LOGGING,
+        "logfile-template",
+        LOGGER_CLIENT_LEVEL,
+        LOGGER_FILE_CLIENT,
+        LOGGER_MAX_BYTES,
+        LOGGER_BACKUP_COUNT,
+        "logging.handlers.RotatingFileHandler",
+    )
+    set_generic_logger(
+        LOGGING, "django.template", LOGGER_CLIENT_LEVEL, ["console", "logfile-template"]
+    )
+    set_generic_handler(
+        LOGGING,
+        "logfile-request",
+        LOGGER_CLIENT_LEVEL,
+        LOGGER_FILE_CLIENT,
+        LOGGER_MAX_BYTES,
+        LOGGER_BACKUP_COUNT,
+        "logging.handlers.RotatingFileHandler",
+    )
+    set_generic_logger(
+        LOGGING, "django.request", LOGGER_CLIENT_LEVEL, ["console", "logfile-request"]
+    )
+
+if LOGGING_SERVER:
+    set_generic_handler(
+        LOGGING,
+        "logfile-server",
+        LOGGER_SERVER_LEVEL,
+        LOGGER_FILE_SERVER,
+        LOGGER_MAX_BYTES,
+        LOGGER_BACKUP_COUNT,
+        "logging.handlers.RotatingFileHandler",
+    )
+    set_generic_logger(
+        LOGGING, "django.server", LOGGER_SERVER_LEVEL, ["console", "logfile-server"]
+    )
+
+if LOGGING_DB:
+    set_generic_handler(
+        LOGGING,
+        "logfile-django-db-backend",
+        LOGGER_DB_LEVEL,
+        LOGGER_FILE_DB,
+        LOGGER_MAX_BYTES,
+        LOGGER_BACKUP_COUNT,
+        "logging.handlers.RotatingFileHandler",
+    )
+    set_generic_logger(
+        LOGGING,
+        "django.db.backends",
+        LOGGER_DB_LEVEL,
+        ["console", "logfile-django-db-backend"],
+    )
+
+
+# SSL
+
+if SERVER_URI.lower().startswith("https"):
+    # Activate HTTPS
+    os.environ["HTTPS"] = "on"
+
+    # Secure cookies
+    CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_AGE = None
+    SESSION_COOKIE_SECURE = True
+    SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+    SESSION_COOKIE_AGE = 604800
+
+    # Set x-frame options
+    X_FRAME_OPTIONS = "SAMEORIGIN"
+
+if ENABLE_SAML2_SSO_AUTH:
+    import saml2
+    import saml2.saml
+    from core_main_app.utils.saml2.utils import (
+        load_saml_config_from_env,
+        load_django_attribute_map_from_env,
+    )
+
+    # Update Django Settings
+    if "djangosaml2" not in INSTALLED_APPS:
+        INSTALLED_APPS = INSTALLED_APPS + ("djangosaml2",)
+    if "djangosaml2.middleware.SamlSessionMiddleware" not in MIDDLEWARE:
+        MIDDLEWARE = MIDDLEWARE + ("djangosaml2.middleware.SamlSessionMiddleware",)
+    AUTHENTICATION_BACKENDS = (
+        "django.contrib.auth.backends.ModelBackend",
+        "djangosaml2.backends.Saml2Backend",
+    )
+
+    # Configure djangosaml2
+    SAML_SESSION_COOKIE_NAME = "saml_session"
+    LOGIN_REDIRECT_URL = "/"
+    LOGOUT_REDIRECT_URL = "/"
+    SAML_DEFAULT_BINDING = saml2.BINDING_HTTP_POST
+    SAML_LOGOUT_REQUEST_PREFERRED_BINDING = saml2.BINDING_HTTP_POST
+    SAML_IGNORE_LOGOUT_ERRORS = True
+    SAML_DJANGO_USER_MAIN_ATTRIBUTE = os.getenv(
+        "SAML_DJANGO_USER_MAIN_ATTRIBUTE", "username"
+    )
+    SAML_USE_NAME_ID_AS_USERNAME = (
+        os.getenv("SAML_USE_NAME_ID_AS_USERNAME", "False").lower() == "true"
+    )
+    SAML_CREATE_UNKNOWN_USER = (
+        os.getenv("SAML_CREATE_UNKNOWN_USER", "False").lower() == "true"
+    )
+    SAML_ATTRIBUTE_MAPPING = load_django_attribute_map_from_env()
+
+    # Configure Pysaml2
+    SAML_CONFIG = load_saml_config_from_env(server_uri=SERVER_URI, base_dir=BASE_DIR)
+    SAML_ACS_FAILURE_RESPONSE_FUNCTION = "core_main_app.views.user.views.saml2_failure"
+
+# configure handle server PIDs according to environment settings
+if ENABLE_HANDLE_PID:
+    HDL_USER = (
+        f"300%3A{ID_PROVIDER_PREFIX_DEFAULT}/"
+        f'{os.getenv("HANDLE_NET_USER", "ADMIN")}'
+    )
+
+    ID_PROVIDER_SYSTEM_NAME = "handle.net"
+    ID_PROVIDER_SYSTEM_CONFIG = {
+        "class": "core_linked_records_app.utils.providers.handle_net.HandleNetSystem",
+        "args": [
+            os.getenv("HANDLE_NET_LOOKUP_URL", "https://hdl.handle.net"),
+            os.getenv("HANDLE_NET_REGISTRATION_URL", "https://handle-net.domain"),
+            HDL_USER,
+            os.getenv("HANDLE_NET_SECRET_KEY", "admin"),
+        ],
+    }
+
+    HANDLE_NET_RECORD_INDEX = os.getenv("HANDLE_NET_RECORD_INDEX", 1)
+    HANDLE_NET_ADMIN_DATA = {
+        "index": int(os.getenv("HANDLE_NET_ADMIN_INDEX", 100)),
+        "type": os.getenv("HANDLE_NET_ADMIN_TYPE", "HS_ADMIN"),
+        "data": {
+            "format": os.getenv("HANDLE_NET_ADMIN_DATA_FORMAT", "admin"),
+            "value": {
+                "handle": f"0.NA/{ID_PROVIDER_PREFIX_DEFAULT}",
+                "index": int(os.getenv("HANDLE_NET_ADMIN_DATA_INDEX", 200)),
+                "permissions": os.getenv(
+                    "HANDLE_NET_ADMIN_DATA_PERMISSIONS", "011111110011"
+                ),
+            },
+        },
+    }
+
+
+
+# core_main_app settings
+SERVER_EMAIL = ""
+EMAIL_SUBJECT_PREFIX = ""
+USE_EMAIL = False
+ADMINS = [("admin", "admin@example.com")]
+MANAGERS = [("manager", "moderator@example.com")]
+
+USE_BACKGROUND_TASK = False
 
 # CACHE CONFIGURATION
 CACHES = {
@@ -363,27 +569,3 @@ CACHES = {
         "OPTIONS": {"MAX_ENTRIES": 2000},
     },
 }
-
-# MENUS NAMES
-EXPLORE_TREE_MENU_NAME = "Browse Database"
-EXPLORE_MENU_NAME = "Search Data"
-CURATE_MENU_NAME = "Curate Data"
-SCHEMA_VIEWER_MENU_NAME = "View Schema"
-EXPLORE_EXAMPLE_MENU_NAME = "Data Query"
-ADVANCED_MENU_NAME = "Advanced Functions"
-VISUALIZATION_USER_MENU_NAME = "Data Visualization"
-VISUALIZATION_INSITU_USER_MENU_NAME = "Insitu Data Visualization"
-
-CAN_ANONYMOUS_ACCESS_PUBLIC_DOCUMENT = True
-
-""" boolean: Can anonymous user access public data
-"""
-
-SSL_CERTIFICATES_DIR = "certs"
-""" :py:class:`str`: SSL certificates directory location.
-"""
-
-XSD_URI_RESOLVER = None
-""" :py:class:`str`: XSD URI Resolver for lxml validation. Choose from:  None, 'REQUESTS_RESOLVER'.
-"""
-CQL_NAMESPACE = "http://siam.nist.gov/Database-Navigation-Ontology#"
